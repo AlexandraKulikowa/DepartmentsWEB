@@ -1,0 +1,29 @@
+﻿@model NewPersonViewModel
+
+<div class="validation validation-message" asp-validation-summary="ModelOnly"></div>
+
+<div class="addperson">
+    <h5>Добавление нового сотрудника</h5>
+    <form method="post">
+
+        <label asp-for="LastName">Фамилия</label>
+        <input asp-for="LastName" type="text" class="form-control">
+        <span asp-validation-for="LastName" style="color:brown"></span>
+        <br />
+
+        <label asp-for="FirstName">Имя</label>
+        <input asp-for="FirstName" type="text" class="form-control">
+        <span asp-validation-for="FirstName" style="color:brown"></span>`
+        <br>
+
+        <label for="DepartmentId">Выберите подразделение</label>
+        <select name="DepartmentId">
+            @foreach (var department in Model.Departments)
+            {
+                <option value="@department.Id">@department.Name</option>
+            }
+        </select>
+
+        <button class="btn btn-secondary addpersonbutton" type="submit" asp-area="" asp-controller="home" asp-action="addperson">Добавить</button>
+    </form>
+</div>

@@ -1,5 +1,9 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+}
+
+a {
+    color: dimgray;
 }
 
 @media (min-width: 768px) {
@@ -14,5 +18,73 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-image: url(../images/back.jpg);
+}
+
+.navbar{
+    justify-content:center;
+    background-color:aliceblue;
+    box-shadow: 4px;
+    border-bottom: 4px;
+}
+
+.leftblock {
+    left: 3%;
+    position: fixed;
+    background-color: antiquewhite;
+    border: 1px solid midnightblue;
+    font-size: medium;
+    font-weight: 600;
+    box-shadow: 4px 4px 4px;
+    margin-top: 4%;
+}
+
+.persons {
+    width: 50%;
+    height: 70%;
+    margin-left: 14%;
+    margin-right: auto;
+    margin-top: 4%;
+    padding: 25px 27px 10px 28px;
+    background-color: antiquewhite;
+    border-radius: 2px;
+    border: 1px solid midnightblue;
+    box-shadow: 4px 4px 4px;
+    font-size: 18px;
+    position: absolute;
+}
+
+td {
+    padding: 8px 8px 5px 8px;
+}
+
+.addpersonbutton {
+    justify-content: flex-end;
+    text-align: right;
+    align-items: end;
+    position: absolute;
+    bottom: 5%;
+    left: 69%;
+    display: flex;
+}
+
+.addperson {
+    width: 30%;
+    height: 45%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4%;
+    padding: 20px 6px 4px 29px;
+    background-color: antiquewhite;
+    border-radius: 2px;
+    border: 1px solid midnightblue;
+    box-shadow: 4px 4px 4px;
+    position: absolute;
+    font-size: 15px;
+    left: 30%;
+}
+
+.form-control{
+    width: 290px;
 }

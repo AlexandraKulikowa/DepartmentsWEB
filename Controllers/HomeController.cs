@@ -1,32 +1,54 @@
-﻿using DepartmentsWEB.Models;
+﻿using AutoMapper;
+using DepartmentsWEB.db.Interfaces;
+using DepartmentsWEB.Helpers;
+using DepartmentsWEB.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace DepartmentsWEB.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private IDepartmentsRepository departmentsRepository;
+        private IPersonsRepository personsRepository;
+        private readonly IMapper mapper;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IDepartmentsRepository departmentsRepository, IPersonsRepository personsRepository, IMapper mapper)
         {
-            _logger = logger;
+            this.departmentsRepository = departmentsRepository;
+            this.personsRepository = personsRepository;
+            this.mapper = mapper;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int id = 1)
         {
-            return View();
+            var departmentVM = new CreateVisual(departmentsRepository, mapper).ToCreateVisual(id);
+            return View(departmentVM);
         }
 
-        public IActionResult Privacy()
+        public IActionResult ChangeDepartment(int personId, int newDepartmentId)
         {
-            return View();
+            personsRepository.ChangeDepartment(personId, newDepartmentId);
+            return RedirectToAction("Index", "Home", new { id = newDepartmentId });
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult AddPerson()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            NewPersonViewModel newPerson = new NewPersonViewModel();
+            newPerson.Departments = new CreateVisual(departmentsRepository, mapper).ToDepartmentsVM();
+            return View(newPerson);
+        }
+
+        [HttpPost]
+        public IActionResult AddPerson(NewPersonViewModel newPerson)
+        {
+            if (ModelState.IsValid)
+            {
+                var person = newPerson.ToPerson();
+                personsRepository.AddPerson(person);
+                return RedirectToAction("Index", "Home", new { id = person.DepartmentId });
+            }
+            newPerson.Departments = new CreateVisual(departmentsRepository, mapper).ToDepartmentsVM();
+            return View(newPerson);
         }
     }
 }

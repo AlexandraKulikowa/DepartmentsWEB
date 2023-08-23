@@ -1,0 +1,10 @@
+﻿@model List<DepartmentViewModel>
+
+<div class="leftblock">
+    <div class="btn-group-vertical btn-group-lg" role="group">
+        @foreach (var department in Model)
+        {
+            <a type="button" class="btn" asp-area="" asp-controller="home" asp-action="index" asp-route-id="@department.Id">@department.Name</a>
+        }
+    </div>
+</div>

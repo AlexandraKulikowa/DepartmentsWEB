@@ -1,8 +1,52 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model DepartmentVisualViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<body>
+    @await Component.InvokeAsync("Departments")
+    <div class="persons">
+        <h2>@Model.Department.Name</h2>
+        <table class="persontable">
+            <thead>
+                <tr>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Подразделение</th>
+                    <th>Сменить</th>
+                </tr>
+            </thead>
+            @foreach (var person in Model.Department.People)
+            {
+                <tbody>
+                    <tr>
+                        <td>@person.LastName</td>
+                        <td>@person.FirstName</td>
+                        <td>@Model.Department.Name</td>
+                        <td>
+                            <div class="dropdown">
+                                <a class="btn btn-outline-secondary dropdown-toggle" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Сменить подразделение
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    @foreach (var department in Model.Departments)
+                                    {
+                                        @if (department.Id == Model.Department.Id)
+                                        {
+                                            <li><a class="btn btn-secondary" asp-area="" asp-controller="home" asp-action="changedepartment" asp-route-personId="@person.Id" asp-route-newDepartmentId="@department.Id">@department.Name</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a class="btn btn-outline-secondary" asp-area="" asp-controller="home" asp-action="changedepartment" asp-route-personId="@person.Id" asp-route-newDepartmentId="@department.Id">@department.Name</a></li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+        <div class="addpersonbutton">
+            <a class="btn btn-secondary" asp-area="" asp-controller="home" asp-action="addperson" asp-route-id="@Model.Department.Id">Добавить сотрудника</a>
+        </div>
+    </div>
+</body>
